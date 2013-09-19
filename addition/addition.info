@@ -1,0 +1,3 @@
+name = Addition
+description = A page that adds two numbers
+core = 7.x

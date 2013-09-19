@@ -1,0 +1,98 @@
+<?php
+/**
+ * @file
+ * A module that adds two numbers
+ */
+function addition_help($path, $arg) {
+    switch ($path) {
+    case "admin/help#addition":
+        return '<p>' . t("I am here to help you") . '</p>';
+            break;
+    }
+}
+
+/** 
+ * Implements hook_block_info().
+ */
+function addition_block_information() {
+    $blocks['add block information'] = array(
+        //The name will appear in the block list.
+        'info' => t('Add two numbers'),
+        // Default setting.
+        'cache' => DRUPAL_CACHE_PER_ROLE,
+    );
+    return $blocks;
+}
+/**
+ *
+ * Implement hook_menu().
+ *
+ */
+
+function addition_menu() {
+    $items = array();
+
+    $items['examples/form-example'] = array(
+        'title' => 'Add Two Numbers',
+        'description' => 'A Module Specializing in Addition',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('form_example_form'),
+        'access callback' => TRUE
+    );
+
+    return $items;
+
+}
+
+/**
+ *
+ * Actual Form
+ *
+ */
+function form_example_form($form, &$form_state) {
+
+    $form['addition'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Please enter first number',
+        '#size' => 10,
+        '#maxlength' => 10,
+        '#required' => TRUE,
+
+    );
+
+    $form['addition2'] = array(
+        '#type' => 'textfield',
+        '#title' => 'Please enter second number',
+        '#size' => 10,
+        '#maxlength' => 10,
+        '#required' => TRUE,
+
+    );
+
+    $form['submit_button'] = array(
+        '#type' => 'submit',
+        '#value' => t('Sum'),
+    );
+
+    return $form;
+}
+
+function form_example_form_validate($form, &$form_state){
+    $num1= $form_state['values']['addition'];  
+    $num2= $form_state['values']['addition2'];  
+    if(!is_numeric($num1)){
+        form_set_error('addition', t('You must enter a number.'));
+    }
+    else if(!is_numeric($num2)){
+        form_set_error('addition2', t('You must enter a number.'));
+    }
+}
+
+function form_example_form_submit($form, &$form_state) {
+    $num1= $form_state['values']['addition'];  
+    $num2= $form_state['values']['addition2'];
+    $sum = ($num1 + $num2);
+    drupal_set_message(t($sum));
+}
+        
+    
